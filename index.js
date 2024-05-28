@@ -10,7 +10,7 @@ app.use(express.json()); //Trasforma in json l'oggetto - senza fare json stringi
 
 async function start(){
     try {
-        await mongoose.connect('mongodb+srv://StefanoM:1r8U0SOZDVAt00V4@cluster0.csj3q0k.mongodb.net/');
+        await mongoose.connect('mongodb+srv://StefanoM:PASS@cluster0.csj3q0k.mongodb.net/');
         app.listen(port, () => {
             console.log(`Example app listening on port ${port}`); //Lo accendo
         })
@@ -21,7 +21,7 @@ async function start(){
 
 start()
 
- // mongoose.connect('mongodb+srv://StefanoM:1r8U0SOZDVAt00V4@cluster0.csj3q0k.mongodb.net/'); //Oggetto capace di connettere le due cose (database e server - credo)
+ // mongoose.connect('mongodb+srv://StefanoM:PASS@cluster0.csj3q0k.mongodb.net/'); //Oggetto capace di connettere le due cose (database e server - credo)
 
 
 app.get('/home', (req, res) =>{    //Endpoint che verrà richiamato dal client
