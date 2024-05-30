@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const app = express(); //Sto creando un'applicazione basata su express
 const port = 3001;
@@ -49,6 +50,7 @@ app.get('/users', async (req, res) => {
     return res.status(200).json(allUsers); //Ogni endpoint necessita di un ritorno - 200 è status positivo - poi restituico i dati
 })
 
+
 //GETbyID
 app.get('/users/:id', async (req, res) => {
     const id = req.params.id; //Mi prendo l'id che viene dal client
@@ -86,10 +88,10 @@ app.post('/users', async (req, res) => {
 
 //Update
 app.put('/users/:id', async (req, res) => {
-    const id = req.params.id
-    const obj = req.body;
+    const id = req.params.id //Mi prendo l'ID
+    const obj = req.body; //Mi prendo il corpo del client, cioè le varie modifiche fatte
     try {
-        const editUser = await userModel.findByIdAndUpdate(id, obj);
+        const editUser = await userModel.findByIdAndUpdate(id, obj); //Utente modificato, con il suo ID e il nuovo corpo
         return res.status(200).json(editUser);
     } catch (error) {
         return res.status(500).json({message: 'Problemi nella modifica di un utente', error: error})
@@ -111,13 +113,17 @@ app.delete('/users/:id', async (req, res) => {
 //Connect to Mongo and start server
 async function connect() {
     try {
-        await mongoose.connect('mongodb+srv://StefanoM:PASS@cluster0.csj3q0k.mongodb.net/' + dbName);
+        await mongoose.connect(process.env.MONGODB_URL + dbName);
         app.listen(port, () => console.log(`Server attivo sulla porta ${port}`));
 
     } catch (error) {
         console.log(error);
     }
 }
-
-
 connect();
+
+/* Metodo alternativo per connettersi al database e far partire il server
+
+mongoose.connect(MONGODB_URL + dbName)
+.then (response => app.listen(port , () => console.log("Server attivo ecc")))
+.catch(error => console.log(error))*/
