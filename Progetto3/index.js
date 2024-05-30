@@ -10,6 +10,16 @@ const dbName = 'Progetto3' //Scelgo il nome del dabatabase
 //Middlewares
 app.use(cors()); //Middleware per la gestione del CORS
 app.use(express.json()); //Middleware per la gestione del formato JSONS - evita parse e stringify
+app.use(logger) //Gli dico di usare il middleware logger al lancio dell'app
+
+//Middleware custom - il middlewar è una funzione
+function logger(req, res, next){
+    console.log("Sono il middleware logger!!!");
+    // res.send("non puoi entrare") - Devo dire qualcosa da fare altrimenti si blocca
+    next();
+}
+
+
 
 //Models
 //Lo schema è la struttura che deve avere ogni oggetto che salverò nella collection di MongoDB
@@ -50,6 +60,10 @@ app.get('/users', async (req, res) => {
     return res.status(200).json(allUsers); //Ogni endpoint necessita di un ritorno - 200 è status positivo - poi restituico i dati
 })
 
+//Prova pagina principale per testare middleware logger
+app.get('/', (req, res) => {
+    res.send("Hello World!")
+})
 
 //GETbyID
 app.get('/users/:id', async (req, res) => {
