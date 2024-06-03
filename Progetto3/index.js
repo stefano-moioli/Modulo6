@@ -14,11 +14,15 @@ app.use(logger) //Gli dico di usare il middleware logger al lancio dell'app
 
 //Middleware custom - il middlewar è una funzione
 function logger(req, res, next){
-    console.log("Sono il middleware logger!!!");
+    console.log("Sono il middleware logger!!! URL: " + req.url);
     // res.send("non puoi entrare") - Devo dire qualcosa da fare altrimenti si blocca
     next();
 }
 
+function singleLog(req, res, next){
+    console.log("Sono il middleware single log");
+    next();
+}
 
 
 //Models
@@ -61,7 +65,7 @@ app.get('/users', async (req, res) => {
 })
 
 //Prova pagina principale per testare middleware logger
-app.get('/', (req, res) => {
+app.get('/', singleLog, (req, res) => {
     res.send("Hello World!")
 })
 
